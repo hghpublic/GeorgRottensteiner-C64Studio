@@ -1,4 +1,6 @@
+using GR.Memory;
 using System;
+using System.Text;
 
 namespace GR
 {
@@ -244,14 +246,26 @@ namespace GR
           return "";
         }
 
-        string      strResult = "";
+        var buffer = new ByteBuffer();
+        ReadBlock( buffer, Length );
 
+        if ( Length < 256 )
+        {
+          string      strResult = "";
+
+          for ( int i = 0; i < Length; ++i )
+          {
+            char      cChar = (char)buffer[i];
+            strResult += cChar;
+          }
+          return strResult;
+        }
+        var sb = new StringBuilder();
         for ( int i = 0; i < Length; ++i )
         {
-          char      cChar = (char)ReadUInt8();
-          strResult += cChar;
+          sb.Append( (char)buffer[i] );
         }
-        return strResult;
+        return sb.ToString();
       }
 
 

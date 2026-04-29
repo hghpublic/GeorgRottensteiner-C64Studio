@@ -241,6 +241,7 @@
       // btnCopyMapImage
       // 
       this.btnCopyMapImage.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+      this.btnCopyMapImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnCopyMapImage.BorderStyle = DecentForms.BorderStyle.FLAT;
       this.btnCopyMapImage.ButtonBorder = DecentForms.Button.ButtonStyle.RAISED;
       this.btnCopyMapImage.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -254,6 +255,7 @@
       // 
       // btnToolSelect
       // 
+      this.btnToolSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnToolSelect.Appearance = System.Windows.Forms.Appearance.Button;
       this.btnToolSelect.BorderStyle = DecentForms.BorderStyle.NONE;
       this.btnToolSelect.CheckAlign = DecentForms.ContentAlignment.MiddleLeft;
@@ -268,6 +270,7 @@
       // 
       // btnToolFill
       // 
+      this.btnToolFill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnToolFill.Appearance = System.Windows.Forms.Appearance.Button;
       this.btnToolFill.BorderStyle = DecentForms.BorderStyle.NONE;
       this.btnToolFill.CheckAlign = DecentForms.ContentAlignment.MiddleLeft;
@@ -282,6 +285,7 @@
       // 
       // btnToolQuad
       // 
+      this.btnToolQuad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnToolQuad.Appearance = System.Windows.Forms.Appearance.Button;
       this.btnToolQuad.BorderStyle = DecentForms.BorderStyle.NONE;
       this.btnToolQuad.CheckAlign = DecentForms.ContentAlignment.MiddleLeft;
@@ -296,6 +300,7 @@
       // 
       // btnToolRect
       // 
+      this.btnToolRect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnToolRect.Appearance = System.Windows.Forms.Appearance.Button;
       this.btnToolRect.BorderStyle = DecentForms.BorderStyle.NONE;
       this.btnToolRect.CheckAlign = DecentForms.ContentAlignment.MiddleLeft;
@@ -310,6 +315,7 @@
       // 
       // btnToolEdit
       // 
+      this.btnToolEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.btnToolEdit.Appearance = System.Windows.Forms.Appearance.Button;
       this.btnToolEdit.BorderStyle = DecentForms.BorderStyle.NONE;
       this.btnToolEdit.CheckAlign = DecentForms.ContentAlignment.MiddleLeft;
@@ -324,6 +330,7 @@
       // 
       // labelEditInfo
       // 
+      this.labelEditInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.labelEditInfo.Location = new System.Drawing.Point(406, 433);
       this.labelEditInfo.Name = "labelEditInfo";
       this.labelEditInfo.Size = new System.Drawing.Size(265, 23);
@@ -332,6 +339,7 @@
       // 
       // groupMapExtraData
       // 
+      this.groupMapExtraData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.groupMapExtraData.Controls.Add(this.editMapExtraData);
       this.groupMapExtraData.Controls.Add(this.label20);
       this.groupMapExtraData.Location = new System.Drawing.Point(681, 247);
@@ -363,6 +371,7 @@
       // 
       // comboTiles
       // 
+      this.comboTiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.comboTiles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
       this.comboTiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.comboTiles.FormattingEnabled = true;
@@ -375,6 +384,7 @@
       // 
       // comboMapProjectMode
       // 
+      this.comboMapProjectMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.comboMapProjectMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.comboMapProjectMode.FormattingEnabled = true;
       this.comboMapProjectMode.Location = new System.Drawing.Point(752, 33);
@@ -385,6 +395,7 @@
       // 
       // comboMaps
       // 
+      this.comboMaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.comboMaps.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.comboMaps.Enabled = false;
       this.comboMaps.FormattingEnabled = true;
@@ -396,6 +407,7 @@
       // 
       // groupSize
       // 
+      this.groupSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.groupSize.Controls.Add(this.checkShowGrid);
       this.groupSize.Controls.Add(this.comboMapAlternativeMode);
       this.groupSize.Controls.Add(this.comboMapAlternativeBGColor4);
@@ -700,6 +712,8 @@
       // 
       // mapHScroll
       // 
+      this.mapHScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.mapHScroll.BorderStyle = DecentForms.BorderStyle.NONE;
       this.mapHScroll.DisplayType = DecentForms.ScrollBar.SBDisplayType.RAISED;
       this.mapHScroll.Enabled = false;
@@ -716,6 +730,8 @@
       // 
       // mapVScroll
       // 
+      this.mapVScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.mapVScroll.BorderStyle = DecentForms.BorderStyle.NONE;
       this.mapVScroll.DisplayType = DecentForms.ScrollBar.SBDisplayType.RAISED;
       this.mapVScroll.Enabled = false;
@@ -732,6 +748,7 @@
       // 
       // label25
       // 
+      this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label25.AutoSize = true;
       this.label25.Location = new System.Drawing.Point(678, 36);
       this.label25.Name = "label25";
@@ -741,6 +758,7 @@
       // 
       // label19
       // 
+      this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label19.AutoSize = true;
       this.label19.Location = new System.Drawing.Point(678, 9);
       this.label19.Name = "label19";
@@ -750,6 +768,9 @@
       // 
       // pictureEditor
       // 
+      this.pictureEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.pictureEditor.AutoResize = false;
       this.pictureEditor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.pictureEditor.DisplayPage = fastImage1;
@@ -759,6 +780,7 @@
       this.pictureEditor.Size = new System.Drawing.Size(644, 404);
       this.pictureEditor.TabIndex = 0;
       this.pictureEditor.TabStop = false;
+      this.pictureEditor.SizeChanged += new System.EventHandler(this.pictureEditor_SizeChanged);
       this.pictureEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureEditor_Paint);
       this.pictureEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureEditor_MouseDown);
       this.pictureEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureEditor_MouseMove);
