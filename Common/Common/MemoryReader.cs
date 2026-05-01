@@ -246,26 +246,10 @@ namespace GR
           return "";
         }
 
-        var buffer = new ByteBuffer();
-        ReadBlock( buffer, Length );
+        var result = System.Text.Encoding.UTF8.GetString( m_Buffer.Data(), m_Position, (int)Length );
+        m_Position += (int)Length;
 
-        if ( Length < 256 )
-        {
-          string      strResult = "";
-
-          for ( int i = 0; i < Length; ++i )
-          {
-            char      cChar = (char)buffer[i];
-            strResult += cChar;
-          }
-          return strResult;
-        }
-        var sb = new StringBuilder();
-        for ( int i = 0; i < Length; ++i )
-        {
-          sb.Append( (char)buffer[i] );
-        }
-        return sb.ToString();
+        return result;
       }
 
 

@@ -13,6 +13,7 @@ namespace GR
       public abstract bool WriteUInt16( System.UInt16 Word );
       public abstract bool WriteUInt32( System.UInt32 DWord );
       public abstract bool WriteF32( float Value );
+      public abstract bool WriteBlock( byte[] data );
       public abstract bool WriteBlock( GR.Memory.ByteBuffer Data );
       public abstract bool WriteBlock( GR.Memory.ByteBuffer Data, UInt32 BytesToWrite );
       public abstract bool WriteLine( string Line );

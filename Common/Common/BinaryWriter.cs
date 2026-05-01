@@ -157,17 +157,29 @@ namespace GR
         {
           return false;
         }
-        if ( !WriteUInt32( (UInt32)text.Length ) )
+        var bytes = System.Text.Encoding.UTF8.GetBytes( text );
+        if ( !WriteUInt32( (UInt32)bytes.Length ) )
         {
           return false;
         }
+        return WriteBlock( bytes );
+      }
 
+
+
+      public override bool WriteBlock( byte[] data )
+      {
+        if ( data == null )
+        {
+          return false;
+        }
+        if ( m_Stream == null )
+        {
+          return false;
+        }
         try
         {
-        for ( int i = 0; i < text.Length; ++i )
-        {
-          m_Stream.WriteByte( (byte)text[i] );
-        }
+          m_Stream.Write( data, 0, (int)data.Length );
           return true;
         }
         catch ( System.Exception )

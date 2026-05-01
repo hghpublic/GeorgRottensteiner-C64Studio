@@ -1,3 +1,4 @@
+using GR.Memory;
 using System;
 
 namespace GR
@@ -310,21 +311,20 @@ namespace GR
         {
           return "";
         }
-        UInt32  Length = ReadUInt32();
-
+        var  Length = ReadUInt32();
         if ( !EnsureReadBuffer( (int)Length ) )
         {
           return "";
         }
 
-        string      strResult = "";
+        var temp = new ByteBuffer( Length );
 
-        for ( int i = 0; i < Length; ++i )
+        if ( ReadBlock( temp, Length ) != Length )
         {
-          char      cChar = (char)NextByte();
-          strResult += cChar;
+          return "";
         }
-        return strResult;
+
+        return System.Text.Encoding.UTF8.GetString( temp.Data() );
       }
 
 

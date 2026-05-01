@@ -129,6 +129,7 @@ namespace RetroDevStudio.Documents
 
       pictureEditor.MouseWheel += pictureEditor_MouseWheel;
       pictureEditor.DisplayPage.Create( 320, 200, GR.Drawing.PixelFormat.Format32bppRgb );
+      pictureEditor.DisplayPage.FixedScaleFactor = _ScaleFactor;
       pictureEditor.PostPaint += PictureEditor_PostPaint;
       pictureTileDisplay.ClientSize = new System.Drawing.Size( 256, 256 );
       pictureTileDisplay.DisplayPage.Create( 128, 128, GR.Drawing.PixelFormat.Format32bppRgb );
@@ -223,8 +224,7 @@ namespace RetroDevStudio.Documents
         {
           return 0;
         }
-        //return pictureEditor.ClientSize.Width / ScreenCharWidth / m_CurrentMap.TileSpacingX;
-        return pictureEditor.ClientSize.Width / 2 /
+        return pictureEditor.ClientSize.Width / _ScaleFactor /
           ( m_CurrentMap.TileSpacingX * Lookup.CharacterWidthInPixel( Lookup.GraphicTileModeFromTextCharMode( Lookup.TextCharModeFromTextMode( m_MapProject.Mode ), 0 ) ) );
       }
     }
@@ -239,29 +239,8 @@ namespace RetroDevStudio.Documents
         {
           return 0;
         }
-        //return pictureEditor.ClientSize.Height / ScreenCharHeight / m_CurrentMap.TileSpacingY;
-        return pictureEditor.ClientSize.Height / 2 / 
+        return pictureEditor.ClientSize.Height / _ScaleFactor / 
           ( m_CurrentMap.TileSpacingY * Lookup.CharacterHeightInPixel( Lookup.GraphicTileModeFromTextCharMode( Lookup.TextCharModeFromTextMode( m_MapProject.Mode ), 0 ) ) );
-      }
-    }
-
-
-
-    private int ScreenCharWidth
-    {
-      get
-      {
-        return Lookup.ScreenWidthInCharacters( m_MapProject.Mode );
-      }
-    }
-
-
-
-    private int ScreenCharHeight
-    {
-      get
-      {
-        return Lookup.ScreenHeightInCharacters( m_MapProject.Mode );
       }
     }
 
@@ -436,16 +415,20 @@ namespace RetroDevStudio.Documents
 
       // draw selection
       uint    selectionColor = Core.Settings.FGColor( ColorableElement.SELECTION_FRAME );
+
+      int     tileWidth = _ScaleFactor * m_CurrentMap.TileSpacingX * Lookup.CharacterWidthInPixel( Lookup.GraphicTileModeFromTextCharMode( Lookup.TextCharModeFromTextMode( m_MapProject.Mode ), 0 ) );
+      int     tileHeight = _ScaleFactor * m_CurrentMap.TileSpacingY * Lookup.CharacterWidthInPixel( Lookup.GraphicTileModeFromTextCharMode( Lookup.TextCharModeFromTextMode( m_MapProject.Mode ), 0 ) );
+
       for ( int x = 0; x < m_CurrentMap.Tiles.Width; ++x )
       {
         for ( int y = 0; y < m_CurrentMap.Tiles.Height; ++y )
         {
           if ( m_SelectedTiles[x, y] )
           {
-            int  sx1 = ( x - m_CurEditorOffsetX ) * m_CurrentMap.TileSpacingX * pictureEditor.ClientRectangle.Width / ScreenCharWidth;
-            int  sx2 = ( x + 1 - m_CurEditorOffsetX ) * m_CurrentMap.TileSpacingX * pictureEditor.ClientRectangle.Width / ScreenCharWidth;
-            int  sy1 = ( y - m_CurEditorOffsetY ) * m_CurrentMap.TileSpacingY * pictureEditor.ClientRectangle.Height / ScreenCharHeight;
-            int  sy2 = ( y + 1 - m_CurEditorOffsetY ) * m_CurrentMap.TileSpacingY * pictureEditor.ClientRectangle.Height / ScreenCharHeight;
+            int  sx1 = ( x - m_CurEditorOffsetX ) * tileWidth;
+            int  sx2 = ( x + 1 - m_CurEditorOffsetX ) * tileWidth;
+            int  sy1 = ( y - m_CurEditorOffsetY ) * tileHeight;
+            int  sy2 = ( y + 1 - m_CurEditorOffsetY ) * tileHeight;
 
             --sx2;
             --sy2;
@@ -494,10 +477,10 @@ namespace RetroDevStudio.Documents
 
         CalcRect( m_DragStartPos, m_LastDragEndPos, out o1, out o2 );
 
-        TargetBuffer.Rectangle( ( o1.X - m_CurEditorOffsetX ) * m_CurrentMap.TileSpacingX * pictureEditor.ClientRectangle.Width / ScreenCharWidth,
-                                ( o1.Y - m_CurEditorOffsetY ) * m_CurrentMap.TileSpacingY * pictureEditor.ClientRectangle.Height / ScreenCharHeight,
-                                ( o2.X - o1.X + 1 ) * m_CurrentMap.TileSpacingX * pictureEditor.ClientRectangle.Width / ScreenCharWidth, 
-                                ( o2.Y - o1.Y + 1 ) * m_CurrentMap.TileSpacingY * pictureEditor.ClientRectangle.Height / ScreenCharHeight,
+        TargetBuffer.Rectangle( ( o1.X - m_CurEditorOffsetX ) * tileWidth,
+                                ( o1.Y - m_CurEditorOffsetY ) * tileHeight,
+                                ( o2.X - o1.X + 1 ) * tileWidth,
+                                ( o2.Y - o1.Y + 1 ) * tileHeight,
                                 selectionColor );
       }
 
@@ -3963,8 +3946,8 @@ namespace RetroDevStudio.Documents
         int   deltaY = y - m_DragPoint.Y;
 
         // 2 is auto scaling factor
-        int     tileWidth = ( pictureEditor.ClientRectangle.Width / ScreenCharWidth ) * _ScaleFactor;
-        int     tileHeight = ( pictureEditor.ClientRectangle.Height / ScreenCharHeight ) * _ScaleFactor;
+        int     tileWidth = ( pictureEditor.ClientRectangle.Width / VisibleTilesX ) * _ScaleFactor;
+        int     tileHeight = ( pictureEditor.ClientRectangle.Height / VisibleTilesY ) * _ScaleFactor;
 
         if ( ( deltaX != 0 )
         ||   ( deltaY != 0 ) )

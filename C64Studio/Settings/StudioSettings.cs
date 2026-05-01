@@ -1851,7 +1851,7 @@ namespace RetroDevStudio
       AllowTabs = true;
       FormatSettings.TabSize = GR.MathUtil.Clamp( 1, FormatSettings.TabSize, 800 );
       if ( ( CaretWidth < 1 )
-      ||   ( CaretWidth >= 200 ) )
+      || ( CaretWidth >= 200 ) )
       {
         CaretWidth = 1;
       }
@@ -1897,8 +1897,8 @@ namespace RetroDevStudio
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.HELP, Keys.F1 );
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.SAVE_DOCUMENT_AS, Keys.F12 );
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.TOGGLE_BREAKPOINT, Keys.Shift | Keys.F9 );
-      ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.UNDO, Keys.Alt | Keys.Back, Keys.Control | Keys.Z);
-      ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.REDO, Keys.Shift | Keys.Alt | Keys.Back, Keys.Control | Keys.Shift | Keys.Z);
+      ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.UNDO, Keys.Alt | Keys.Back, Keys.Control | Keys.Z );
+      ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.REDO, Keys.Shift | Keys.Alt | Keys.Back, Keys.Control | Keys.Shift | Keys.Z );
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.COPY, Keys.Control | Keys.C );
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.PASTE, Keys.Control | Keys.V );
       ValidateOrSetKeyBindingKey( RetroDevStudio.Types.Function.CUT, Keys.Control | Keys.X );
@@ -1911,13 +1911,26 @@ namespace RetroDevStudio
 
       SanitizePalettes();
 
-      while ( ReplaceArguments.Count >= 50 )
+      SanitizeStringList( ReplaceArguments, 50, 128 );
+      SanitizeStringList( ReplaceWithArguments, 50, 128 );
+      SanitizeStringList( FindArguments, 50, 128 );
+    }
+
+
+
+    private void SanitizeStringList( List<string> list, int numMaxEntries, int truncateLength )
+    {
+      while ( list.Count >= numMaxEntries )
       {
-        ReplaceArguments.RemoveAt( ReplaceArguments.Count - 1 );
+        list.RemoveAt( list.Count - 1 );
       }
-      while ( FindArguments.Count >= 50 )
+      for ( int i = 0; i < list.Count; ++i )
       {
-        FindArguments.RemoveAt( FindArguments.Count - 1 );
+        var arg = list[i];
+        if ( arg.Length > truncateLength )
+        {
+          list[i] = arg.Substring( 0, truncateLength );
+        }
       }
     }
 

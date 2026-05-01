@@ -318,6 +318,7 @@ namespace GR.Image
     private GR.Drawing.PixelFormat  m_PixelFormat = GR.Drawing.PixelFormat.Format32bppRgb;
     private GR.Memory.ByteBuffer    m_PaletteData = null;
     private IntPtr  m_Palette = IntPtr.Zero;
+    private int     _FixedScaleFactor = 1;      // used to avoid scaling to half scale factor pixels
 
 
 
@@ -816,7 +817,21 @@ namespace GR.Image
         RealizePalette( dc );
       }
 
-      StretchBlt( dc, 0, 0, Target.Width, Target.Height, imageDC, 0, 0, m_Width, m_Height, TernaryRasterOperations.SRCCOPY );
+      int targetWidth = Target.Width;
+      int targetHeight = Target.Height;
+      if ( _FixedScaleFactor != 1 )
+      {
+        while ( ( targetWidth % FixedScaleFactor ) != 0 )
+        {
+          --targetWidth;
+        }
+        while ( ( targetHeight % FixedScaleFactor ) != 0 )
+        {
+          --targetHeight;
+        }
+      }
+
+      StretchBlt( dc, 0, 0, targetWidth, targetHeight, imageDC, 0, 0, m_Width, m_Height, TernaryRasterOperations.SRCCOPY );
 
       SelectObject( imageDC, oldObject );
       if ( m_Palette != IntPtr.Zero )
@@ -1409,6 +1424,24 @@ namespace GR.Image
           pal.ColorValues[i] = PaletteColor( i );
         }
         return pal;
+      }
+    }
+
+
+
+    public int FixedScaleFactor
+    {
+      get
+      {
+        return _FixedScaleFactor;
+      }
+
+      set
+      {
+        if ( _FixedScaleFactor != value )
+        {
+          _FixedScaleFactor = value;
+        }
       }
     }
 

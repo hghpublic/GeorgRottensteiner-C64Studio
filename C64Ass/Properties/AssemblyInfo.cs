@@ -15,7 +15,7 @@ using System.Runtime.Versioning;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "C64Ass" )]
-[assembly: AssemblyCopyright( "Copyright ©  2016 - 2024" )]
+[assembly: AssemblyCopyright( "Copyright ©  2016 - 2026" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
