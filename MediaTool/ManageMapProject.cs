@@ -1,6 +1,7 @@
 ﻿using GR.Memory;
 using RetroDevStudio.Formats;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,9 +11,20 @@ namespace MediaTool
   {
     private int HandleMapProject( GR.Text.ArgumentParser ArgParser )
     {
-      if ( !ValidateExportType( "map project file", ArgParser.Parameter( "TYPE" ), new string[] { "MAPDATA", "MAPDATAASM", "CHARSET" } ) )
+      if ( !ValidateExportType( "map project file", ArgParser.Parameter( "TYPE" ), new string[] { "MAPDATA", "MAPDATAVERT", "MAPDATAASM", "MAPDATAVERTASM", "CHARSET" } ) )
       {
         return 1;
+      }
+
+      int     count = -1;
+      int     firstEntry = 0;
+      if ( ArgParser.IsParameterSet( "OFFSET" ) )
+      {
+        firstEntry = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
+      }
+      if ( ArgParser.IsParameterSet( "COUNT" ) )
+      {
+        count = GR.Convert.ToI32( ArgParser.Parameter( "COUNT" ) );
       }
 
       GR.Memory.ByteBuffer    data = GR.IO.File.ReadAllBytes( ArgParser.Parameter( "MAPPROJECT" ) );
@@ -33,15 +45,37 @@ namespace MediaTool
 
       if ( ArgParser.Parameter( "TYPE" ).Contains( "MAPDATAASM" ) )
       {
-        foreach ( var map in mapProject.Maps )
+        if ( !ValidateFirstAndCount( firstEntry, ref count, mapProject.Maps.Count ) )
         {
-          var     mapData = new ByteBuffer( (uint)( map.Tiles.Width * map.Tiles.Height ) );
+          return 1;
+        }
 
-          for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+        bool isVertical = ArgParser.Parameter( "TYPE" ).Contains( "VERT" );
+
+        for ( int mapIndex = 0; mapIndex < count; ++mapIndex )
+        {
+          var   map = mapProject.Maps[firstEntry + mapIndex];
+
+          var   mapData = new ByteBuffer( (uint)( map.Tiles.Width * map.Tiles.Height ) );
+
+          if ( isVertical )
           {
             for ( int i = 0; i < 0 + map.Tiles.Width; ++i )
             {
-              mapData.SetU8At( i + j * map.Tiles.Width, (byte)map.Tiles[i, j] );
+              for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+              {
+                mapData.SetU8At( i + j * map.Tiles.Width, (byte)map.Tiles[i, j] );
+              }
+            }
+          }
+          else
+          {
+            for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+            {
+              for ( int i = 0; i < 0 + map.Tiles.Width; ++i )
+              {
+                mapData.SetU8At( i + j * map.Tiles.Width, (byte)map.Tiles[i, j] );
+              }
             }
           }
           resultingData.Append( Encoding.ASCII.GetBytes( "MAP_" + map.Name + "\n!hex \"" + mapData.ToString() + "\"\n" ) );
@@ -49,49 +83,48 @@ namespace MediaTool
       }
       else if ( ArgParser.Parameter( "TYPE" ).Contains( "MAPDATA" ) )
       {
-        foreach ( var map in mapProject.Maps )
+        if ( !ValidateFirstAndCount( firstEntry, ref count, mapProject.Maps.Count ) )
         {
-          for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+          return 1;
+        }
+
+        bool isVertical = ArgParser.Parameter( "TYPE" ).Contains( "VERT" );
+
+        for ( int mapIndex = 0; mapIndex < count; ++mapIndex )
+        {
+          var   map = mapProject.Maps[firstEntry + mapIndex];
+          if ( isVertical )
           {
             for ( int i = 0; i < 0 + map.Tiles.Width; ++i )
             {
-              resultingData.AppendU8( (byte)map.Tiles[i,j] );
+              for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+              {
+                resultingData.AppendU8( (byte)map.Tiles[i, j] );
+              }
+            }
+          }
+          else
+          {
+            for ( int j = 0; j < 0 + map.Tiles.Height; ++j )
+            {
+              for ( int i = 0; i < 0 + map.Tiles.Width; ++i )
+              {
+                resultingData.AppendU8( (byte)map.Tiles[i, j] );
+              }
             }
           }
         }
       }
       else if ( ArgParser.Parameter( "TYPE" ).Contains( "CHARSET" ) )
       {
-        int     count = -1;
-        int     firstChar = 0;
-        if ( ArgParser.IsParameterSet( "OFFSET" ) )
+        if ( !ValidateFirstAndCount( firstEntry, ref count, mapProject.Charset.Characters.Count ) )
         {
-          firstChar = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
-        }
-        if ( ArgParser.IsParameterSet( "COUNT" ) )
-        {
-          count = GR.Convert.ToI32( ArgParser.Parameter( "COUNT" ) );
-        }
-        if ( count == -1 )
-        {
-          count = mapProject.Charset.Characters.Count;
-        }
-        if ( ( firstChar < 0 )
-        ||   ( firstChar >= mapProject.Charset.Characters.Count ) )
-        {
-          System.Console.WriteLine( "OFFSET is invalid" );
-          return 1;
-        }
-        if ( ( count <= 0 )
-        ||   ( firstChar + count > mapProject.Charset.Characters.Count ) )
-        {
-          System.Console.WriteLine( "COUNT is invalid" );
           return 1;
         }
         resultingData = new GR.Memory.ByteBuffer( (uint)( count * 8 ) );
         for ( int i = 0; i < count; ++i )
         {
-          mapProject.Charset.Characters[firstChar + i].Tile.Data.CopyTo( resultingData, 0, 8, i * 8 );
+          mapProject.Charset.Characters[firstEntry + i].Tile.Data.CopyTo( resultingData, 0, 8, i * 8 );
         }
       }
       if ( !GR.IO.File.WriteAllBytes( ArgParser.Parameter( "EXPORT" ), resultingData ) )
@@ -101,6 +134,9 @@ namespace MediaTool
       }
       return 0;
     }
+
+
+
 
   }
 }

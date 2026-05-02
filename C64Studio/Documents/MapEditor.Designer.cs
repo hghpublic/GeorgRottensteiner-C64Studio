@@ -773,6 +773,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.pictureEditor.AutoResize = false;
       this.pictureEditor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      fastImage1.FixedScaleFactor = 1;
       this.pictureEditor.DisplayPage = fastImage1;
       this.pictureEditor.Image = null;
       this.pictureEditor.Location = new System.Drawing.Point(8, 6);
@@ -1187,6 +1188,7 @@
       // 
       this.panelCharColors.AutoResize = false;
       this.panelCharColors.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      fastImage2.FixedScaleFactor = 1;
       this.panelCharColors.DisplayPage = fastImage2;
       this.panelCharColors.Image = null;
       this.panelCharColors.Location = new System.Drawing.Point(371, 389);
@@ -1201,6 +1203,7 @@
       // 
       this.pictureTileDisplay.AutoResize = false;
       this.pictureTileDisplay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      fastImage3.FixedScaleFactor = 1;
       this.pictureTileDisplay.DisplayPage = fastImage3;
       this.pictureTileDisplay.Image = null;
       this.pictureTileDisplay.Location = new System.Drawing.Point(642, 123);
@@ -1519,6 +1522,7 @@
       // 
       this.fastPictureBox1.AutoResize = false;
       this.fastPictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      fastImage4.FixedScaleFactor = 1;
       this.fastPictureBox1.DisplayPage = fastImage4;
       this.fastPictureBox1.Image = null;
       this.fastPictureBox1.Location = new System.Drawing.Point(658, 390);
@@ -1531,6 +1535,7 @@
       // 
       this.fastPictureBox2.AutoResize = false;
       this.fastPictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      fastImage5.FixedScaleFactor = 1;
       this.fastPictureBox2.DisplayPage = fastImage5;
       this.fastPictureBox2.Image = null;
       this.fastPictureBox2.Location = new System.Drawing.Point(8, 6);

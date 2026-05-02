@@ -3867,11 +3867,20 @@ namespace RetroDevStudio
       openDlg.Filter = FilterString( Types.Constants.FILEFILTER_ALL_SUPPORTED_FILES + Types.Constants.FILEFILTER_ASM + Types.Constants.FILEFILTER_CHARSET + Types.Constants.FILEFILTER_SPRITE + Types.Constants.FILEFILTER_BASIC + Types.Constants.FILEFILTER_BINARY_FILES + Types.Constants.FILEFILTER_ALL );
       openDlg.InitialDirectory = projectToAddTo.Settings.BasePath;
       openDlg.Multiselect = true;
+      /*
+      var openDlg = new FolderPicker();
+      openDlg.InputPath = projectToAddTo.Settings.BasePath;
+      openDlg.Multiselect = true;
+      openDlg.Title = "Open existing item";
+      //openDlg.Filter = FilterString( Types.Constants.FILEFILTER_ALL_SUPPORTED_FILES + Types.Constants.FILEFILTER_ASM + Types.Constants.FILEFILTER_CHARSET + Types.Constants.FILEFILTER_SPRITE + Types.Constants.FILEFILTER_BASIC + Types.Constants.FILEFILTER_BINARY_FILES + Types.Constants.FILEFILTER_ALL );
+      //
+      if ( !openDlg.ShowDialog( this.Handle ).Value )*/
       if ( openDlg.ShowDialog() != System.Windows.Forms.DialogResult.OK )
       {
         return false;
       }
 
+      //AddExistingFilesToProject( projectToAddTo, Node, openDlg.ResultNames.ToArray(), false );
       AddExistingFilesToProject( projectToAddTo, Node, openDlg.FileNames, false );
       return true;
     }

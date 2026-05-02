@@ -22,31 +22,19 @@ namespace MediaTool
         return 1;
       }
 
-      int     firstSprite = 0;
+      int     firstEntry = 0;
       int     count = -1;
       if ( ArgParser.IsParameterSet( "OFFSET" ) )
       {
-        firstSprite = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
+        firstEntry = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
       }
       if ( ArgParser.IsParameterSet( "COUNT" ) )
       {
         count = GR.Convert.ToI32( ArgParser.Parameter( "COUNT" ) );
       }
-      if ( count == -1 )
-      {
-        count = spriteProject.TotalNumberOfSprites;
-      }
 
-      if ( ( firstSprite < 0 )
-      ||   ( firstSprite >= spriteProject.TotalNumberOfSprites ) )
+      if ( !ValidateFirstAndCount( firstEntry, ref count, spriteProject.TotalNumberOfSprites ) )
       {
-        System.Console.WriteLine( "OFFSET is invalid" );
-        return 1;
-      }
-      if ( ( count <= 0 )
-      ||   ( firstSprite + count > spriteProject.TotalNumberOfSprites ) )
-      {
-        System.Console.WriteLine( "COUNT is invalid" );
         return 1;
       }
 
@@ -56,12 +44,12 @@ namespace MediaTool
       GR.Memory.ByteBuffer    spriteData = new GR.Memory.ByteBuffer( (uint)( count * bytesOfPaddedSingleSprite ) );
       for ( int i = 0; i < count; ++i )
       {
-        spriteProject.Sprites[firstSprite + i].Tile.Data.CopyTo( spriteData, 0, bytesOfSingleSprite, i * bytesOfPaddedSingleSprite );
+        spriteProject.Sprites[firstEntry + i].Tile.Data.CopyTo( spriteData, 0, bytesOfSingleSprite, i * bytesOfPaddedSingleSprite );
         if ( bytesOfPaddedSingleSprite > bytesOfSingleSprite )
         {
           // pad with color
-          byte color = (byte)spriteProject.Sprites[firstSprite + i].Tile.CustomColor;
-          if ( spriteProject.Sprites[firstSprite + i].Mode == SpriteMode.COMMODORE_24_X_21_MULTICOLOR )
+          byte color = (byte)spriteProject.Sprites[firstEntry + i].Tile.CustomColor;
+          if ( spriteProject.Sprites[firstEntry + i].Mode == SpriteMode.COMMODORE_24_X_21_MULTICOLOR )
           {
             color |= 0x80;
           }

@@ -74,7 +74,8 @@ namespace RetroDevStudio.Documents
     private ExportMapFormBase           m_ExportForm = null;
     private ImportMapFormBase           m_ImportForm = null;
 
-    private List<int>                   _TileUsage = new List<int>();
+    private List<int>                   _TileUsageInCurrentMap = new List<int>();
+    private List<int>                   _TileUsageTotal = new List<int>();
 
 
 
@@ -706,6 +707,8 @@ namespace RetroDevStudio.Documents
       }
       m_FloatingSelection = null;
       RecalcTileUsageInCurrentMap();
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
       Redraw();
       Modified = true;
     }
@@ -924,6 +927,8 @@ namespace RetroDevStudio.Documents
                                                 ( p2.X - p1.X + 1 ) * m_CurrentMap.TileSpacingX, ( p2.Y - p1.Y + 1 ) * m_CurrentMap.TileSpacingY );
               pictureEditor.Invalidate( new System.Drawing.Rectangle( p1.X * m_CurrentMap.TileSpacingX, p1.Y * m_CurrentMap.TileSpacingY, ( p2.X - p1.X + 1 ) * m_CurrentMap.TileSpacingX, ( p2.Y - p1.Y + 1 ) * m_CurrentMap.TileSpacingY ) );
               RecalcTileUsageInCurrentMap();
+              RecalcTileUsageTotal();
+              UpdateTotalTileUsageStats();
               Modified = true;
             }
             break;
@@ -1006,6 +1011,8 @@ namespace RetroDevStudio.Documents
                 m_CurrentMap.Tiles[trueX + offsetX, trueY + offsetY] = m_CurrentEditorTile.Index;
                 SetModified();
                 RecalcTileUsageInCurrentMap();
+                RecalcTileUsageTotal();
+                UpdateTotalTileUsageStats();
 
                 DrawTile( trueX, trueY, m_CurrentEditorTile.Index );
                 // copy to image cache
@@ -1031,6 +1038,9 @@ namespace RetroDevStudio.Documents
 
               FillContent( trueX + m_CurEditorOffsetX, trueY + m_CurEditorOffsetY );
               RecalcTileUsageInCurrentMap();
+              RecalcTileUsageTotal();
+              UpdateTotalTileUsageStats();
+
             }
             break;
           case ToolMode.RECTANGLE:
@@ -1403,6 +1413,8 @@ namespace RetroDevStudio.Documents
       {
         return false;
       }
+      RecalcTileUsageTotal();
+      int tileIndex = 0;
       foreach ( var tile in m_MapProject.Tiles )
       {
         comboTiles.Items.Add( new GR.Generic.Tupel<string, Formats.MapProject.Tile>( tile.Name, tile ) );
@@ -1412,10 +1424,11 @@ namespace RetroDevStudio.Documents
         item.Text = tile.Index.ToString();
         item.SubItems.Add( tile.Name );
         item.SubItems.Add( tile.Chars.Width.ToString() + "x" + tile.Chars.Height.ToString() );
-        item.SubItems.Add( "0" );
+        item.SubItems.Add( _TileUsageTotal[tileIndex].ToString() );
         item.Tag = tile;
 
         listTileInfo.Items.Add( item );
+        ++tileIndex;
       }
 
       comboTiles.DropDownHeight = comboTiles.DropDownHeight;
@@ -1464,6 +1477,10 @@ namespace RetroDevStudio.Documents
       {
         listTileInfo.SelectedIndices.Add( 0 );
       }
+
+      RecalcTileUsageInCurrentMap();
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
 
       EnableFileWatcher();
       return true;
@@ -1999,7 +2016,7 @@ namespace RetroDevStudio.Documents
         return;
       }
 
-      if ( m_CurrentMap.TileSpacingX * m_CurrentMap.Tiles.Width + 1 <= VisibleTilesX )
+      if ( m_CurrentMap.Tiles.Width <= VisibleTilesX )
       {
         mapHScroll.Maximum = 0;
         mapHScroll.Enabled = false;
@@ -2016,7 +2033,7 @@ namespace RetroDevStudio.Documents
       }
 
       mapVScroll.Minimum = 0;
-      if ( m_CurrentMap.TileSpacingY * m_CurrentMap.Tiles.Height + 1 <= VisibleTilesY )
+      if ( m_CurrentMap.Tiles.Height <= VisibleTilesY )
       {
         mapVScroll.Maximum = 0;
         mapVScroll.Enabled = false;
@@ -2096,6 +2113,7 @@ namespace RetroDevStudio.Documents
       btnCopy.Enabled = ( m_CurrentMap != null );
 
       RecalcTileUsageInCurrentMap();
+      UpdateTotalTileUsageStats();
 
       AdjustScrollbars();
       RedrawMap();
@@ -2103,12 +2121,45 @@ namespace RetroDevStudio.Documents
 
 
 
-    private void RecalcTileUsageInCurrentMap()
+    private void UpdateTotalTileUsageStats()
     {
-      _TileUsage.Clear();
+      listTileInfo.BeginUpdate();
       for ( int i = 0; i < m_MapProject.Tiles.Count; ++i )
       {
-        _TileUsage.Add( 0 );
+        listTileInfo.Items[i].SubItems[3].Text = _TileUsageTotal[i].ToString();
+      }
+      listTileInfo.EndUpdate();
+    }
+
+
+
+    private void RecalcTileUsageTotal()
+    {
+      _TileUsageTotal.Clear();
+      for ( int i = 0; i < m_MapProject.Tiles.Count; ++i )
+      {
+        _TileUsageTotal.Add( 0 );
+      }
+      foreach ( var map in m_MapProject.Maps )
+      {
+        for ( int i = 0; i < map.Tiles.Width; ++i )
+        {
+          for ( int j = 0; j < map.Tiles.Height; ++j )
+          {
+            ++_TileUsageTotal[map.Tiles[i, j]];
+          }
+        }
+      }
+    }
+
+
+
+    private void RecalcTileUsageInCurrentMap()
+    {
+      _TileUsageInCurrentMap.Clear();
+      for ( int i = 0; i < m_MapProject.Tiles.Count; ++i )
+      {
+        _TileUsageInCurrentMap.Add( 0 );
       }
       if ( m_CurrentMap != null )
       {
@@ -2116,7 +2167,7 @@ namespace RetroDevStudio.Documents
         {
           for ( int j = 0; j < m_CurrentMap.Tiles.Height; ++j )
           {
-            ++_TileUsage[m_CurrentMap.Tiles[i, j]];
+            ++_TileUsageInCurrentMap[m_CurrentMap.Tiles[i, j]];
           }
         }
       }
@@ -2200,6 +2251,9 @@ namespace RetroDevStudio.Documents
       RedrawMap();
       RedrawTile();
       SetModified();
+
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
     }
 
 
@@ -2365,6 +2419,8 @@ namespace RetroDevStudio.Documents
       }
 
       SetModified();
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
 
       AdjustScrollbars();
       RedrawMap();
@@ -2514,18 +2570,18 @@ namespace RetroDevStudio.Documents
       {
         e.Graphics.DrawString( e.Index.ToString() + ":" + comboTiles.Items[e.Index].ToString(), comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.White ), 3.0f, e.Bounds.Top + 1.0f );
         if ( ( e.Index >= 0 )
-        &&   ( e.Index < _TileUsage.Count ) )
+        &&   ( e.Index < _TileUsageInCurrentMap.Count ) )
         {
-          e.Graphics.DrawString( $"used {_TileUsage[e.Index].ToString()} times", comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.White ), 3.0f, e.Bounds.Top + comboTiles.Font.Height + 2.0f );
+          e.Graphics.DrawString( $"used {_TileUsageInCurrentMap[e.Index].ToString()} times", comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.White ), 3.0f, e.Bounds.Top + comboTiles.Font.Height + 2.0f );
         }
       }
       else
       {
         e.Graphics.DrawString( e.Index.ToString() + ":" + comboTiles.Items[e.Index].ToString(), comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.Black ), 3.0f, e.Bounds.Top + 1.0f );
         if ( ( e.Index >= 0 )
-        &&   ( e.Index < _TileUsage.Count ) )
+        &&   ( e.Index < _TileUsageInCurrentMap.Count ) )
         {
-          e.Graphics.DrawString( $"used {_TileUsage[e.Index].ToString()} times", comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.Black ), 3.0f, e.Bounds.Top + comboTiles.Font.Height + 2.0f );
+          e.Graphics.DrawString( $"used {_TileUsageInCurrentMap[e.Index].ToString()} times", comboTiles.Font, new System.Drawing.SolidBrush( System.Drawing.Color.Black ), 3.0f, e.Bounds.Top + comboTiles.Font.Height + 2.0f );
         }
       }
       e.DrawFocusRectangle();
@@ -2678,6 +2734,8 @@ namespace RetroDevStudio.Documents
       listTileChars.Items.Clear();
       RedrawMap();
       SetModified();
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
     }
 
 
@@ -3166,6 +3224,8 @@ namespace RetroDevStudio.Documents
                                                               Height * m_CurrentMap.TileSpacingY * 8 ) );
       RedrawMap();
       RecalcTileUsageInCurrentMap();
+      RecalcTileUsageTotal();
+      UpdateTotalTileUsageStats();
     }
 
 
@@ -3188,6 +3248,8 @@ namespace RetroDevStudio.Documents
           comboMaps.Items[i] = comboMaps.Items[i];
         }
         SetModified();
+        RecalcTileUsageTotal();
+        UpdateTotalTileUsageStats();
       }
       else
       {

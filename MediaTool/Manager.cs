@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,29 @@ namespace MediaTool
       }
       System.Console.WriteLine( ExportType + " is not supported for media " + MediaType );
       return false;
+    }
+
+
+
+    private bool ValidateFirstAndCount( int firstEntry, ref int count, int containerCount )
+    {
+      if ( count == -1 )
+      {
+        count = containerCount;
+      }
+      if ( ( firstEntry < 0 )
+      ||   ( firstEntry >= containerCount ) )
+      {
+        System.Console.WriteLine( "OFFSET is invalid" );
+        return false;
+      }
+      if ( ( count <= 0 )
+      ||   ( firstEntry + count > containerCount ) )
+      {
+        System.Console.WriteLine( "COUNT is invalid" );
+        return false;
+      }
+      return true;
     }
 
 
@@ -56,7 +80,9 @@ namespace MediaTool
       argParser.AddSwitchValue( "TYPE", "HIRESBITMAPSCREENCOLORS" );
       argParser.AddSwitchValue( "TYPE", "HIRESBITMAPCOLORSSCREEN" );
       argParser.AddSwitchValue( "TYPE", "MAPDATA" );
+      argParser.AddSwitchValue( "TYPE", "MAPDATAVERT" );
       argParser.AddSwitchValue( "TYPE", "MAPDATAASM" );
+      argParser.AddSwitchValue( "TYPE", "MAPDATAVERTASM" );
 
       if ( !argParser.CheckParameters( args ) )
       {

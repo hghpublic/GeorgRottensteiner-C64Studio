@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetroDevStudio.Formats;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,36 +20,24 @@ namespace MediaTool
         System.Console.WriteLine( "Couldn't read binary file " + ArgParser.Parameter( "BINARY" ) );
         return 1;
       }
-      int     firstUnit = 0;
+      int     firstEntry = 0;
       int     count = -1;
       if ( ArgParser.IsParameterSet( "OFFSET" ) )
       {
-        firstUnit = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
+        firstEntry = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
       }
       if ( ArgParser.IsParameterSet( "COUNT" ) )
       {
         count = GR.Convert.ToI32( ArgParser.Parameter( "COUNT" ) );
       }
-      if ( count == -1 )
-      {
-        count = (int)data.Length;
-      }
 
-      if ( ( firstUnit < 0 )
-      ||   ( firstUnit >= (int)data.Length ) )
+      if ( !ValidateFirstAndCount( firstEntry, ref count, (int)data.Length ) )
       {
-        System.Console.WriteLine( "OFFSET is invalid" );
-        return 1;
-      }
-      if ( ( count <= 0 )
-      ||   ( firstUnit + count > (int)data.Length ) )
-      {
-        System.Console.WriteLine( "COUNT is invalid" );
         return 1;
       }
 
       GR.Memory.ByteBuffer    resultData = new GR.Memory.ByteBuffer( (uint)count );
-      data.CopyTo( resultData, firstUnit, count );
+      data.CopyTo( resultData, firstEntry, count );
 
       if ( !GR.IO.File.WriteAllBytes( ArgParser.Parameter( "EXPORT" ), resultData ) )
       {

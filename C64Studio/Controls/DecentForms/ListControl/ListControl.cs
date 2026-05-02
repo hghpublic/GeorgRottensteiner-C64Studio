@@ -513,7 +513,7 @@ namespace DecentForms
       {
         _ScrollBarV.Visible  = true;
 
-        int usableHeight = ClientSize.Height;
+        int usableHeight = ClientSize.Height - _HeaderHeight;
         if ( needHorizontalScrollbar )
         {
           usableHeight -= _ScrollBarH.Height;
@@ -527,11 +527,11 @@ namespace DecentForms
         }
         else if ( needHorizontalScrollbar )
         {
-          visibleItemCount = ( ClientSize.Height - _ScrollBarH.Height ) / ItemHeight;
+          visibleItemCount = ( ClientSize.Height - _HeaderHeight - _ScrollBarH.Height ) / ItemHeight;
         }
         else
         {
-          visibleItemCount = ClientSize.Height / ItemHeight;
+          visibleItemCount = ( ClientSize.Height - _HeaderHeight ) / ItemHeight;
         }
         int     newMax = Items.Count - visibleItemCount;
         if ( Items.Count == 0 )
@@ -619,9 +619,9 @@ namespace DecentForms
         }
         if ( _ScrollBarH.Visible )
         {
-          return ( ClientSize.Height - _ScrollBarH.Height ) / ItemHeight;
+          return ( ClientSize.Height - _HeaderHeight - _ScrollBarH.Height ) / ItemHeight;
         }
-        return ClientSize.Height / ItemHeight;
+        return ( ClientSize.Height - _HeaderHeight ) / ItemHeight;
       }
     }
 

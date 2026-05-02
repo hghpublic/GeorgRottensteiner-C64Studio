@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetroDevStudio;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,38 +22,28 @@ namespace MediaTool
         return 1;
       }
 
-      int     firstUnit = 0;
+      int     firstEntry = 0;
       int     count = -1;
       if ( ArgParser.IsParameterSet( "OFFSET" ) )
       {
-        firstUnit = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
+        firstEntry = GR.Convert.ToI32( ArgParser.Parameter( "OFFSET" ) );
       }
       if ( ArgParser.IsParameterSet( "COUNT" ) )
       {
         count = GR.Convert.ToI32( ArgParser.Parameter( "COUNT" ) );
       }
-      if ( count == -1 )
-      {
-        count = charsetProject.Characters.Count;
-      }
 
-      if ( ( firstUnit < 0 )
-      ||   ( firstUnit >= charsetProject.Characters.Count ) )
+      if ( !ValidateFirstAndCount( firstEntry, ref count, charsetProject.Characters.Count ) )
       {
-        System.Console.WriteLine( "OFFSET is invalid" );
-        return 1;
-      }
-      if ( ( count <= 0 )
-      ||   ( firstUnit + count > charsetProject.Characters.Count ) )
-      {
-        System.Console.WriteLine( "COUNT is invalid" );
         return 1;
       }
 
-      GR.Memory.ByteBuffer    exportData = new GR.Memory.ByteBuffer( (uint)( count * 8 ) );
+      int numBytesPerCharacter = Lookup.NumBytesOfSingleCharacter( charsetProject.Mode );
+
+      GR.Memory.ByteBuffer    exportData = new GR.Memory.ByteBuffer( (uint)( count * numBytesPerCharacter ) );
       for ( int i = 0; i < count; ++i )
       {
-        charsetProject.Characters[firstUnit + i].Tile.Data.CopyTo( exportData, 0, 8, i * 8 );
+        charsetProject.Characters[firstEntry + i].Tile.Data.CopyTo( exportData, 0, numBytesPerCharacter, i * numBytesPerCharacter );
       }
 
       if ( !GR.IO.File.WriteAllBytes( ArgParser.Parameter( "EXPORT" ), exportData ) )
