@@ -1225,22 +1225,25 @@ namespace RetroDevStudio.Parser
           {
             var screen = screenProject.Screens[screenIndex];
 
-            if ( w == -1 )
+            int widthToUse = w;
+            int heightToUse = h;
+
+            if ( widthToUse == -1 )
             {
-              w = screen.Width;
+              widthToUse = screen.Width;
             }
-            if ( h == -1 )
+            if ( heightToUse == -1 )
             {
-              h = screen.Height;
+              heightToUse = screen.Height;
             }
             if ( ( x < 0 )
             ||   ( x >= screen.Width )
             ||   ( y < 0 )
             ||   ( y >= screen.Height )
-            ||   ( w < 0 )
-            ||   ( x + w > screen.Width )
-            ||   ( h < 0 )
-            ||   ( y + h > screen.Height ) )
+            ||   ( widthToUse < 0 )
+            ||   ( x + widthToUse > screen.Width )
+            ||   ( heightToUse < 0 )
+            ||   ( y + heightToUse > screen.Height ) )
             {
               AddError( lineIndex, Types.ErrorCode.E1009_INVALID_VALUE, "Invalid coordinates" );
               return false;
@@ -1248,7 +1251,7 @@ namespace RetroDevStudio.Parser
 
             var exportInfo = new ExportCharsetScreenInfo();
             exportInfo.RowByRow = !method.EndsWith( "VERT" );
-            exportInfo.Area = new GR.Math.Rectangle( x, y, w, h );
+            exportInfo.Area = new GR.Math.Rectangle( x, y, widthToUse, heightToUse );
             exportInfo.ScreensToExport.Add( screenIndex );
 
             if ( !screenProject.ExportToBuffer( exportInfo ) )

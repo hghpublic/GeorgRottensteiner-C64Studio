@@ -30,56 +30,39 @@
     {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bookmarks));
-      this.listMessages = new System.Windows.Forms.ListView();
-      this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listMessages = new DecentForms.ListControl();
       this.contextMenuBookmarks = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.jumpToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.deleteBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.deleteAllBookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.imageListCompileResult = new System.Windows.Forms.ImageList(this.components);
-      this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       ((System.ComponentModel.ISupportInitialize)(this.m_FileWatcher)).BeginInit();
       this.contextMenuBookmarks.SuspendLayout();
       this.SuspendLayout();
       // 
       // listMessages
       // 
-      this.listMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
+      this.listMessages.BorderStyle = DecentForms.BorderStyle.SUNKEN;
       this.listMessages.ContextMenuStrip = this.contextMenuBookmarks;
       this.listMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listMessages.FullRowSelect = true;
-      this.listMessages.HideSelection = false;
+      this.listMessages.FirstVisibleItemIndex = 0;
+      this.listMessages.HasHeader = true;
+      this.listMessages.HeaderHeight = 24;
+      this.listMessages.ImageList = null;
+      this.listMessages.ItemHeight = 15;
+      this.listMessages.ListViewItemSorter = null;
       this.listMessages.Location = new System.Drawing.Point(0, 0);
       this.listMessages.Name = "listMessages";
+      this.listMessages.ScrollAlwaysVisible = false;
+      this.listMessages.SelectedIndex = -1;
+      this.listMessages.SelectedItem = null;
+      this.listMessages.SelectionMode = DecentForms.SelectionMode.NONE;
       this.listMessages.Size = new System.Drawing.Size(678, 200);
-      this.listMessages.SmallImageList = this.imageListCompileResult;
+      this.listMessages.SortColumn = -1;
+      this.listMessages.SortOrder = DecentForms.SortOrder.NONE;
       this.listMessages.TabIndex = 0;
-      this.listMessages.UseCompatibleStateImageBehavior = false;
-      this.listMessages.View = System.Windows.Forms.View.Details;
-      this.listMessages.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listMessages_ColumnClick);
-      this.listMessages.ItemActivate += new System.EventHandler(this.listMessages_ItemActivate);
-      // 
-      // columnHeader1
-      // 
-      this.columnHeader1.Text = ".";
-      this.columnHeader1.Width = 20;
-      // 
-      // columnHeader2
-      // 
-      this.columnHeader2.Text = "Line";
-      this.columnHeader2.Width = 50;
-      // 
-      // columnHeader3
-      // 
-      this.columnHeader3.Text = "File";
-      this.columnHeader3.Width = 400;
+      this.listMessages.ItemActivate += new DecentForms.EventHandler(this.listMessages_ItemActivate);
+      this.listMessages.ColumnClicked += new DecentForms.EventHandler(this.listMessages_ColumnClick);
       // 
       // contextMenuBookmarks
       // 
@@ -117,17 +100,6 @@
       this.deleteAllBookmarksToolStripMenuItem.Text = "Delete all bookmarks";
       this.deleteAllBookmarksToolStripMenuItem.Click += new System.EventHandler(this.deleteAllBookmarksToolStripMenuItem_Click);
       // 
-      // imageListCompileResult
-      // 
-      this.imageListCompileResult.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCompileResult.ImageStream")));
-      this.imageListCompileResult.TransparentColor = System.Drawing.Color.Magenta;
-      this.imageListCompileResult.Images.SetKeyName(0, "bookmark-icon.ico");
-      // 
-      // columnHeader4
-      // 
-      this.columnHeader4.Text = "Comment";
-      this.columnHeader4.Width = 250;
-      // 
       // Bookmarks
       // 
       this.ClientSize = new System.Drawing.Size(678, 200);
@@ -143,16 +115,11 @@
 
     #endregion
 
-    private System.Windows.Forms.ListView listMessages;
-    private System.Windows.Forms.ColumnHeader columnHeader2;
-    private System.Windows.Forms.ColumnHeader columnHeader1;
-    private System.Windows.Forms.ColumnHeader columnHeader3;
-    private System.Windows.Forms.ImageList imageListCompileResult;
+    private DecentForms.ListControl listMessages;
     private System.Windows.Forms.ContextMenuStrip contextMenuBookmarks;
     private System.Windows.Forms.ToolStripMenuItem jumpToFileToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripMenuItem deleteBookmarkToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem deleteAllBookmarksToolStripMenuItem;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-    }
+  }
 }

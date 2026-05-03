@@ -1362,9 +1362,21 @@ namespace DecentForms
                   color = ColorControlTextMouseOver;
                   FillRectangle( rcItem, ColorControlBackgroundMouseOver );
                 }
-                DrawText( listControl.Items[itemIndex].SubItems[column].Text, rcItem.Left, rcItem.Top, rcItem.Width, rcItem.Height,
-                          listControl.Columns[column].Alignment,
-                          color );
+
+                if ( ( column == 0 )
+                &&   ( listControl.ImageList != null )
+                &&   ( listControl.Items[itemIndex].ImageIndex >= 0 )
+                &&   ( listControl.Items[itemIndex].ImageIndex < listControl.ImageList.Count ) )
+                {
+                  DrawImageCentered( listControl.ImageList[listControl.Items[itemIndex].ImageIndex],
+                                     rcItem );
+                }
+                else
+                {
+                  DrawText( listControl.Items[itemIndex].SubItems[column].Text, rcItem.Left, rcItem.Top, rcItem.Width, rcItem.Height,
+                            listControl.Columns[column].Alignment,
+                            color );
+                }
               }
             }
             if ( ( listControl.Focused )

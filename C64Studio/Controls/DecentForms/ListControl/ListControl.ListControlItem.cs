@@ -10,6 +10,7 @@ namespace DecentForms
     private bool          _Checked = false;
     internal bool         _Selected = false;
     internal int          _Index = -1;
+    internal int          _ImageIndex = -1;
 
     internal ListControlSubItemCollection SubItems = new ListControlSubItemCollection( null );
 
@@ -53,6 +54,21 @@ namespace DecentForms
       set
       {
         _Checked = value;
+        _Owner?.ItemModified( Index );
+      }
+    }
+
+
+
+    public int ImageIndex
+    {
+      get
+      {
+        return _ImageIndex;
+      }
+      set
+      {
+        _ImageIndex = value;
         _Owner?.ItemModified( Index );
       }
     }

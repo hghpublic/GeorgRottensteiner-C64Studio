@@ -34,10 +34,8 @@ namespace DecentForms
     private System.Collections.IComparer    _itemComparer = null;
     private bool          _insideColumnClickHandler = false;
 
-
-
-
-    private ColumnCollection _Columns = null;
+    private ImageList         _imageList = null;
+    private ColumnCollection  _Columns = null;
 
 
 
@@ -75,6 +73,21 @@ namespace DecentForms
       _ScrollBarV.Scroll += _ScrollBar_Scroll;
       _ScrollBarH.Scroll += _ScrollBarH_Scroll;
       AdjustScrollBars();
+    }
+
+
+
+    public ImageList ImageList
+    {
+      get
+      {
+        return _imageList;
+      }
+      set
+      {
+        _imageList = value;
+        Invalidate();
+      }
     }
 
 

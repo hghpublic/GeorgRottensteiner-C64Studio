@@ -23,8 +23,18 @@ namespace RetroDevStudio.Documents
 
       InitializeComponent();
 
-      listMessages.Sorting = SortOrder.Ascending;
-      listMessages.ListViewItemSorter = new BookmarkItemComparer( listMessagesSortColumn, listMessages.Sorting );
+      listMessages.Columns.Add( ".", 20 );
+      listMessages.Columns[0].Sizable = false;
+      listMessages.Columns.Add( "Line", 50 );
+      listMessages.Columns.Add( "File", 400 );
+      listMessages.Columns.Add( "Comment", 250 );
+      listMessages.SortOrder = DecentForms.SortOrder.ASCENDING;
+      listMessages.ListViewItemSorter = new GR.Forms.NumericListViewItemComparer();
+      //new BookmarkItemComparer( listMessagesSortColumn, listMessages.SortOrder );
+
+      var imageList = new DecentForms.ImageList();
+      imageList.Add( Properties.Resources.bookmark.ToBitmap() );
+      listMessages.ImageList = imageList;
 
       Core.MainForm.ApplicationEvent += MainForm_ApplicationEvent;
     }
@@ -45,7 +55,7 @@ namespace RetroDevStudio.Documents
 
 
 
-    private void listMessages_ItemActivate( object sender, EventArgs e )
+    private void listMessages_ItemActivate( DecentForms.ControlBase sender )
     {
       if ( listMessages.SelectedItems.Count == 0 )
       {
@@ -56,7 +66,7 @@ namespace RetroDevStudio.Documents
 
 
 
-    private void JumpToFile( ListViewItem Item )
+    private void JumpToFile( DecentForms.ListControlItem Item )
     {
       var doc = (DocumentInfo)Item.Tag;
 
@@ -69,29 +79,12 @@ namespace RetroDevStudio.Documents
 
 
 
-    private void listMessages_ColumnClick( object sender, ColumnClickEventArgs e )
+    private void listMessages_ColumnClick( DecentForms.ControlBase sender )
     {
-      if ( e.Column != listMessagesSortColumn )
-      {
-        // Set the sort column to the new column.
-        listMessagesSortColumn = e.Column;
-        // Set the sort order to ascending by default.
-        listMessages.Sorting = SortOrder.Ascending;
-      }
-      else
-      {
-        // Determine what the last sort order was and change it.
-        if ( listMessages.Sorting == SortOrder.Ascending )
-        {
-          listMessages.Sorting = SortOrder.Descending;
-        }
-        else
-        {
-          listMessages.Sorting = SortOrder.Ascending;
-        }
-      }
+      /*
       listMessages.ListViewItemSorter = new BookmarkItemComparer( listMessagesSortColumn, listMessages.Sorting );
       listMessages.Sort();
+      */
     }
 
 
@@ -121,7 +114,7 @@ namespace RetroDevStudio.Documents
       }
 
       listMessagesSortColumn = memIn.ReadInt32();
-      listMessages.Sorting = (SortOrder)memIn.ReadInt32();
+      listMessages.SortOrder = (DecentForms.SortOrder)memIn.ReadInt32();
     }
 
 
@@ -137,7 +130,7 @@ namespace RetroDevStudio.Documents
       }
 
       bufferData.AppendI32( listMessagesSortColumn );
-      bufferData.AppendI32( (int)listMessages.Sorting );
+      bufferData.AppendI32( (int)listMessages.SortOrder );
       return bufferData;
     }
 
@@ -145,7 +138,7 @@ namespace RetroDevStudio.Documents
 
     public void AddBookmark( int LineIndex, DocumentInfo Doc )
     {
-      var item = new ListViewItem();
+      var item = new DecentForms.ListControlItem();
 
       item.ImageIndex = 0;
       item.Text       = "0";
@@ -224,7 +217,7 @@ namespace RetroDevStudio.Documents
     {
       var bookmarksToDelete = new List<GR.Generic.Tupel<DocumentInfo,int>>();
 
-      foreach ( ListViewItem selectedItem in listMessages.SelectedItems )
+      foreach ( var selectedItem in listMessages.SelectedItems )
       {
         var doc = (DocumentInfo)selectedItem.Tag;
         int lineNumber = -1;
@@ -249,7 +242,7 @@ namespace RetroDevStudio.Documents
     {
       var docsToDeleteFrom = new Set<DocumentInfo>();
 
-      foreach ( ListViewItem selectedItem in listMessages.SelectedItems )
+      foreach ( var selectedItem in listMessages.SelectedItems )
       {
         var doc = (DocumentInfo)selectedItem.Tag;
         docsToDeleteFrom.Add( doc );
