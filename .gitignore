@@ -384,3 +384,15 @@
 /Sample Projects/MacroTest/labelconcat2.prg
 /Sample Projects/MacroTest/labelconcat3.prg
 /Sample Projects/MacroTest/renumbertest5.prg
+
+# Visual Studio
+C64StudioRelease/
+TestMediaTool/bin/
+DecentForms/bin/
+.github/upgrades/
+Backup/
+UpgradeLog.htm
+_*/
+
+# macOS
+.DS_Store
