@@ -1,0 +1,52 @@
+=====================
+8/15/2026 11:31:34 PM
+Issue:
+The solution file C64Studio.sln specifies a project configuration for project Tiny64Cmd.csproj that does not exist for that project - please check the solution to find and remove the configuration that is not in the below list.
+
+Existing project configurations:
+Debug|AnyCPU
+Debug|ARM64
+Release|AnyCPU
+Release|ARM64
+
+Resolution options:
+1. Edit the solution file C64Studio.sln to change the project configuration to one of the existing configurations for this project.
+2. Use the Configuration Manager to change the project configuration reference in the solution to an existing project configuration or to create a new project configuration.
+
+Project Path: Y:\Tiny64Cmd\Tiny64Cmd.csproj
+Solution Path: Y:\C64Studio.sln
+===================
+8/15/2026 11:31:34 PM
+Issue:
+The solution file C64Studio.sln specifies a project configuration for project TestProject.csproj that does not exist for that project - please check the solution to find and remove the configuration that is not in the below list.
+
+Existing project configurations:
+Debug|AnyCPU
+Debug|ARM64
+Release|AnyCPU
+Release|ARM64
+
+Resolution options:
+1. Edit the solution file C64Studio.sln to change the project configuration to one of the existing configurations for this project.
+2. Use the Configuration Manager to change the project configuration reference in the solution to an existing project configuration or to create a new project configuration.
+
+Project Path: Y:\TestProject\TestProject.csproj
+Solution Path: Y:\C64Studio.sln
+===================
+8/15/2026 11:31:34 PM
+Issue:
+The solution file C64Studio.sln specifies a project configuration for project Tiny64Emu.csproj that does not exist for that project - please check the solution to find and remove the configuration that is not in the below list.
+
+Existing project configurations:
+Debug|AnyCPU
+Debug|ARM64
+Release|AnyCPU
+Release|ARM64
+
+Resolution options:
+1. Edit the solution file C64Studio.sln to change the project configuration to one of the existing configurations for this project.
+2. Use the Configuration Manager to change the project configuration reference in the solution to an existing project configuration or to create a new project configuration.
+
+Project Path: Y:\Tiny64Emu\Tiny64Emu.csproj
+Solution Path: Y:\C64Studio.sln
+===================
