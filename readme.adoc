@@ -1,0 +1,70 @@
+= C64Studio
+:toc:
+:sectnums:
+ifndef::env-github[:icons: font]
+:note-caption: :paperclip:
+:important-caption: :exclamation:
+:warning-caption: :warning:
+
+[IMPORTANT]
+====
+The commit history of this branch is volatile. +
+Rebasing and force pushing happens at will. +
+The commits in this branch mostly collect changes with a narrow scope. +
+They rarely document code evolution. +
+The history may be rewritten without notice.
+====
+
+[NOTE]
+====
+Project and solution files adapted for usage on Microsoft Windows 11 Pro on ARM with Visual Studio 2026 (18.9.0).
+====
+
+== Georg Rottensteiner
+
+https://www.georg-rottensteiner.de
+
+== C64Studio
+
+https://www.georg-rottensteiner.de/de/c64.html
+
+=== Manual
+
+https://www.georg-rottensteiner.de/c64/C64Studio/manual/main.html
+
+=== Releases
+
+- https://www.georg-rottensteiner.de/files/C64StudioRelease.zip
+- https://www.georg-rottensteiner.de/files/C64StudioReleaseARM.zip
+
+
+== Project J - A C64 Game in mehreren Schritten
+
+https://www.georg-rottensteiner.de/c64/projectj/step1/step1.html
+
+== VICE
+
+- https://vice-emu.sourceforge.io/
+- https://github.com/VICE-Team/svn-mirror
+- https://github.com/hghpublic/VICE-Team-svn-mirror
+
+=== WinVICE: Erste Schritte
+
+https://www.retro-programming.de/programming/benotigte-tools/winvice/
+
+== ACME Cross-Assembler
+
+
+https://sourceforge.net/projects/acme-crossass/
+
+=== Marco Baye
+
+https://www.c64-wiki.de/wiki/Marco_Baye
+
+== Kick Assembler
+
+https://theweb.dk/KickAssembler/Main.html
+
+https://theweb.dk/KickAssembler/KickAssembler.zip
+
+https://www.c64-wiki.de/wiki/KickAssembler
