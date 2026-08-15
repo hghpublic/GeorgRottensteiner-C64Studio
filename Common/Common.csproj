@@ -1,23 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net3.5;net4.8;net10.0;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
-  <!-- 3.5 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net3.5'">
-    <DefineConstants>OS_WINDOWS</DefineConstants>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net3.5'">
-  </ItemGroup>
-  <!-- 4.8 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net4.8'">
-    <DefineConstants>OS_WINDOWS</DefineConstants>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net4.8'">
-  </ItemGroup>
   <!-- 10.0-windows -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
     <DefineConstants>OS_WINDOWS</DefineConstants>

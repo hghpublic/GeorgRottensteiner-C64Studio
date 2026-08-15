@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0-windows;net3.5;net4.8</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
     <OutputType>WinExe</OutputType>
     <RootNamespace>RetroDevStudio</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -681,18 +681,6 @@
       if exist "$(TargetDir)C64Studio.deps.json" copy "$(TargetDir)C64Studio.deps.json" "$(SolutionDir)C64StudioRelease\$(TargetFramework)\$(Platform)"
       if exist "$(TargetDir)runtimes" xcopy /S /Y /I "$(TargetDir)runtimes" "$(SolutionDir)C64StudioRelease\$(TargetFramework)\$(Platform)\runtimes"
     </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net3.5|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net3.5|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net4.8|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net4.8|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-windows|AnyCPU'">
     <NoWarn>1701;1702;CA1416</NoWarn>
